@@ -5,29 +5,24 @@ import {
   ApolloClient,
   ApolloProvider,
   InMemoryCache,
-  HttpLink
+  HttpLink,
+  gql
 } from "@apollo/client";
-import { isDarkModeVar } from "./localStorage";
 
-const cache = new InMemoryCache({
-  typePolicies: {
-    Query: {
-      fields: {
-        isDarkMode: {
-          read() {
-            return isDarkModeVar();
-          }
-        }
-      }
-    }
+const cache = new InMemoryCache();
+
+const typeDefs = gql`
+  extend type Query {
+    isAdmin: Boolean!
   }
-});
+`;
 
 const client = new ApolloClient({
   link: new HttpLink({
     uri: "https://pet-library.moonhighway.com"
   }),
-  cache
+  cache,
+  typeDefs
 });
 
 render(

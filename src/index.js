@@ -9,7 +9,13 @@ import {
   gql
 } from "@apollo/client";
 
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({
+  typePolicies: {
+    Pet: {
+      keyFields: ["name"]
+    }
+  }
+});
 
 const typeDefs = gql`
   extend type Query {
